@@ -21,6 +21,7 @@ int axeYPin=A4;
 int rychlost=2;
 int pocetDarku=3;
 int level=1;
+int level3[] = {0, 100, 80, 100, 20, 40, 140, 40, 20, 80, 60, 80, 20, 120, 100, 120, 20, 140, 60, 140, 20, 160, 60, 160, 20, 180, 80, 180, 40, 60, 80, 60, 100, 20, 180, 20, 100, 80, 180, 80, 120, 100, 160, 100, 120, 120, 140, 120, 140, 60, 160, 60, 140, 140, 160, 140, 160, 40, 180, 40, 160, 120, 180, 120, 160, 160, 180, 160, 40, 0, 40, 20, 80, 0, 80, 20, 20, 20, 20, 80, 60, 20, 60, 40, 100, 20, 100, 80, 180, 20, 180, 40, 160, 40, 160, 60, 80, 60, 80, 100, 120, 60, 120, 100, 180, 60, 180, 120, 20, 120, 20, 140, 80, 120, 80, 200, 100, 120, 100, 180, 120, 120, 120, 200, 160, 120, 160, 140, 140, 140, 140, 180, 180, 140, 180, 180, 20, 160, 20, 180, 160, 160, 160, 200};
 String levely[]={"level 1","level 2","level 3"};
 boolean barva = BLACK;
 
@@ -43,15 +44,18 @@ const uint8_t PROGMEM ctverec[] =
 Adafruit_PCD8544 display = Adafruit_PCD8544(7, 6, 5, 4, 3);
 
 
+void mapaTri(int px, int py, boolean b){
+  for (int lineNumber = 0; lineNumber  <= (sizeof(level3) / sizeof(level3[0])) / 4; lineNumber++ ){
+    display.drawLine( (level3[ 4 * lineNumber] + px), (level3[ 4 * lineNumber + 1] + py), (level3[ 4 * lineNumber + 2] + px), (level3[ 4 * lineNumber + 3] + py), b);
+  }
+}
 void mapaDva(int px, int py, boolean b){
   int ypos;
   int xpos;
-  for (int i = 0; i < 2; i++){
-    for (int j = 0; j < 2; j++){
-      ypos = i + j + 40+py;
-      xpos = (2-i)%2*40+py;
-      display.drawLine(xpos, ypos, xpos + 160, ypos, b);
-    }
+  for (int i = 0; i < 4; i++){
+    ypos = ( i + 1 ) * 40 + py;
+    xpos = ( ( i + 1 ) % 2 ) * 40 + px;
+    display.drawLine(xpos, ypos, xpos + 160, ypos, b);
   }
 }
 void vypisPopis(String (popis)){
@@ -156,19 +160,21 @@ void hra(int r, int pD, int l){
     display.setCursor(2, 2);
     display.setTextColor(barva);
     display.print(skore);
-    mapaDva(0 , posunutiY, barva);
-
-    delay(100*r);
-    if (analogRead(axeXPin)>300){
-      skore+=1;
-      posunutiX += (analogRead(A5) - 524) * r / 300;
-      posunutiY += (analogRead(A4) - 524) * (-r) / 300;
+    display.drawRect(0, 0, display.width(), display.height(),  barva);
+    display.drawRect(posunutiX, posunutiY, 200, 200, barva);
+    mapaTri(posunutiX, posunutiY, barva);
+    if (1){
+      posunutiX += (analogRead(A5) - 524) * (-r) / 300;
+      posunutiY += (analogRead(A4) - 524) * (r) / 300;
     }
 
     barva = BLACK;
     display.setCursor(2, 2);
     display.setTextColor(barva);
     display.print(skore);
+    display.drawRect(0, 0, display.width(), display.height(),  barva);
+    display.drawRect(posunutiX, posunutiY, 200, 200, barva);
+    mapaTri(posunutiX, posunutiY, barva);
     display.display();
   }
 }
