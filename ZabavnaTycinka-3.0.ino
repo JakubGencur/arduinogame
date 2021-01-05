@@ -13,7 +13,7 @@
 // pin A5	osa Y (vodorovna)
 // pin 13	switch
 //kontrast nastavit zde
-int kontrast=23;
+int kontrast=20;
 //kvůli praktičtějšímu držení na mém joysticku jsou osy vyměněny
 int axeXPin=A5;
 int axeYPin=A4;
@@ -161,11 +161,12 @@ void hra(int r, int pD, int l){
     display.setTextColor(barva);
     display.print(skore);
     display.drawRect(0, 0, display.width(), display.height(),  barva);
-    display.drawRect(posunutiX, posunutiY, 200, 200, barva);
-    if (level = 3){
+    display.drawRect(posunutiX, posunutiY, 201, 201, barva);
+    
+    if (level == 2){
       mapaTri(posunutiX, posunutiY, barva);
     }
-    else if(level = 2){
+    else if(level == 1){
       mapaDva(posunutiX, posunutiY, barva);
     }
     if (1){
@@ -179,13 +180,12 @@ void hra(int r, int pD, int l){
     display.print(skore);
     display.drawRect(0, 0, display.width(), display.height(),  barva);
     display.drawRect(posunutiX, posunutiY, 200, 200, barva);
-    if (level = 3){
+    if (level == 2){
       mapaTri(posunutiX, posunutiY, barva);
     }
-    else if(level = 2){
+    else if(level == 1){
       mapaDva(posunutiX, posunutiY, barva);
     }
-    mapaTri(posunutiX, posunutiY, barva);
     display.display();
   }
 }
