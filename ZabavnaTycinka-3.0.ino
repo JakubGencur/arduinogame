@@ -162,7 +162,12 @@ void hra(int r, int pD, int l){
     display.print(skore);
     display.drawRect(0, 0, display.width(), display.height(),  barva);
     display.drawRect(posunutiX, posunutiY, 200, 200, barva);
-    mapaTri(posunutiX, posunutiY, barva);
+    if (level = 3){
+      mapaTri(posunutiX, posunutiY, barva);
+    }
+    else if(level = 2){
+      mapaDva(posunutiX, posunutiY, barva);
+    }
     if (1){
       posunutiX += (analogRead(A5) - 524) * (-r) / 300;
       posunutiY += (analogRead(A4) - 524) * (r) / 300;
@@ -174,6 +179,12 @@ void hra(int r, int pD, int l){
     display.print(skore);
     display.drawRect(0, 0, display.width(), display.height(),  barva);
     display.drawRect(posunutiX, posunutiY, 200, 200, barva);
+    if (level = 3){
+      mapaTri(posunutiX, posunutiY, barva);
+    }
+    else if(level = 2){
+      mapaDva(posunutiX, posunutiY, barva);
+    }
     mapaTri(posunutiX, posunutiY, barva);
     display.display();
   }
@@ -191,6 +202,6 @@ void loop(){
 	delay(500);
 	level=menuVyber("level", 3);
 	delay(500);
-	hra(rychlost, pocetDarku, menuVyber);
+	hra(rychlost, pocetDarku, level);
 }
 
